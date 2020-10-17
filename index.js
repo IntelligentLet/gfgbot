@@ -12,16 +12,23 @@ client.once('ready', () => {
 
 //commands
 client.on('message', message => {
-	if (message.content.startsWith("!ban")) {
+    //bans
+    if (message.content.startsWith("!ban")) {
         const sender = message.member;
         const guild = sender.guild;
+
+        var split = message.content.split(" ");
+        var victim =  message.mentions.users.first();
+
         if (sender.roles.cache.some(role => role.name === 'Mod')) {
-            var split = message.content.split(" ");
-            var victim = split[1];
-            victim.ban({ days: split[2], reason: split[3] })
-            message.channel.send(`Banned ${victim} for ${split[3]} days for reason ${split[4]}.`);
+            if (guild.member(victim)) {
+                guild.members.ban(victim);
+                message.channel.send(`Banned ${victim} for ${split[2]} days for reason ${split[3]}.`);
+            } else {
+                message.channel.send(`Eeek! Something went wrong!`);
+            }
         } else {
-            message.channel.send(`${member} you don't seem to be a moderator. If you think this is a mistake please message a moderator.`) 
+            message.channel.send(`${sender} you don't seem to be a moderator. If you think this is a mistake please message a moderator.`); 
         }
     }
 });
