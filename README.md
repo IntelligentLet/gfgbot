@@ -1,13 +1,8 @@
 # gfgbot
 discord app for moderating a stupid server
 
-# dependencies:
-discord.js
-dotenv
-express
-bad-words-relaxed
-
 # set up instructions
+
 # 1) Get nodejs latest
     Mac: 
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -30,4 +25,14 @@ bad-words-relaxed
 
     Other systems check https://nodejs.org/en/download/package-manager/ MAKE SURE TO GET NPM AS WELL
 
-# 2) 
+# 2) install dependencies
+    ```npm install``` to install dependencies
+    (didn't work? try ```sudo npm install```)
+
+# 3) make your .env file
+    This will be where your Discord API token among other things live.
+    Create and empty file with the name .env
+    inside .env:
+    ```TOKEN=yourdiscordapitoken```
+
+# Boom! Done! Now run ```npm start``` to start up the application!

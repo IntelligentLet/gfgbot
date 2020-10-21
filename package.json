@@ -11,10 +11,10 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "bad-words-relaxed": "^1.6.5",
+        "discord-anti-spam": "^2.4.1",
         "discord.js": "^12.3.1",
-        "express": "^4.17.1",
         "dotenv": "^8.2.0",
-        "bad-words-relaxed": "^1.6.5"
+        "express": "^4.17.1"
     }
-  }
-  
+}

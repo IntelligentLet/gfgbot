@@ -2,6 +2,22 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const keepAlive = require('./server');
 const os = require('os');
+const AntiSpam = require('discord-anti-spam');
+var antiSpam = new AntiSpam({
+    warnThreshold: 6, 
+    kickThreshold: 13, 
+    banThreshold: 18,
+    maxInterval: 4000,
+    maxDuplicatesWarning: 3,
+    maxDuplicatesKick: 6,
+    maxDuplicatesBan: 13,
+    warnMessage: '{@user}, please stop spamming.', 
+    kickMessage: '**{user_tag}** has been kicked for spamming.', 
+    banMessage: '**{user_tag}** has been banned for spamming.', 
+    exemptPermissions: ["ADMINISTRATOR"],
+    ignoreBots: true, 
+    verbose: true,
+});
 const Filter = require('bad-words-relaxed'),
     filter = new Filter();
 require('dotenv').config();
@@ -23,11 +39,26 @@ function bytesToSize(bytes) {
 
 //commands
 client.on('message', message => {
-    //bad words filter
+    antiSpam.message(message).catch(console.error);
+    if (message.content.startsWith("!clean")) {
+        var split = message.content.split(" ");
+        if (message.member.roles.cache.some(role => role.name === 'Mod')) {
+            try {
+                message.channel.fetchMessages({ limit: messagecount })
+                    .then(messages => message.channel.bulkDelete(messages));
+            }    
+            catch {
+                console.error();
+                message.channel.send('Eeek! Something went wrong.')
+            }
+        } else {
+            message.channel.send(`${message.member} you don't seem to be a moderator.`); 
+        }
+        
+    } 
     if (filter.isProfane(message.content) !== false || filter.isProfaneLike(message.content) !== false) {
         message.delete();
-        message.channel.send(`${message.author} chill with the profanity please. Keep doing that, and it's a mute.`);
-        message.author.send(`${message.author} chill with the profanity please. Keep doing that, and it's a mute.`);
+        message.channel.send(`${message.author} chill with the profanity please.`);
     }
     if (message.content.startsWith("!ban")) {
         const guild = message.member.guild;
