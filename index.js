@@ -3,7 +3,7 @@ const fs = require('fs');
 const keepAlive = require('./server');
 const os = require('os');
 const Filter = require('bad-words-relaxed'),
-var filter = new Filter();
+    filter = new Filter();
 require('dotenv').config();
 
 const client = new Discord.Client();
