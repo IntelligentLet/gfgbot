@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const keepAlive = require('./server');
 const os = require('os');
+const Filter = require('bad-words-relaxed'),
+var filter = new Filter();
 require('dotenv').config();
 
 const client = new Discord.Client();
@@ -17,22 +19,16 @@ function bytesToSize(bytes) {
     if (bytes == 0) return '0 Byte';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
- }
- 
-
-function writeBan(name, time, reason) {
-    var data = {
-        name: name,
-        time: time,
-        reason: reason
-    }
-    fs.writeFileSync('bans.json', data);
 }
-
 
 //commands
 client.on('message', message => {
-    //bans
+    //bad words filter
+    if (filter.isProfane(message.content) !== false || filter.isProfaneLike(message.content) !== false) {
+        message.delete();
+        message.channel.send(`${message.author} chill with the profanity please. Keep doing that, and it's a mute.`);
+        message.author.send(`${message.author} chill with the profanity please. Keep doing that, and it's a mute.`);
+    }
     if (message.content.startsWith("!ban")) {
         const guild = message.member.guild;
 
@@ -43,6 +39,43 @@ client.on('message', message => {
             if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352")) {
                 guild.members.ban(victim);
                 message.channel.send(`Banned ${victim} for ${split[2]} days for reason ${split[3]}.`);
+            } else {
+                message.channel.send(`Eeek! Something went wrong!`);
+            }
+        } else {
+            message.channel.send(`${message.member} you don't seem to be a moderator.`); 
+        }
+    }
+    if (message.content.startsWith("!mute")) {
+        const guild = message.member.guild;
+
+        var split = message.content.split(" ");
+        var victim =  guild.member(message.mentions.users.first());
+
+        if (message.member.roles.cache.some(role => role.name === 'Mod')) {
+            if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352")) {
+                let muterole = guild.roles.cache.find(role => role.name === 'Muted');
+                victim.roles.add(muterole).catch(console.error);
+                var reason = message.content.toString()
+                message.channel.send(`Muted ${victim} for ${split[2]} for reason ${reason}`);
+            } else {
+                message.channel.send(`Eeek! Something went wrong!`);
+            }
+        } else {
+            message.channel.send(`${message.member} you don't seem to be a moderator.`); 
+        }
+    }
+    if (message.content.startsWith("!unmute")) {
+        const guild = message.member.guild;
+
+        var split = message.content.split(" ");
+        var victim =  guild.member(message.mentions.users.first());
+
+        if (message.member.roles.cache.some(role => role.name === 'Mod')) {
+            if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352")) {
+                let muterole = guild.roles.cache.find(role => role.name === 'Muted');
+                victim.roles.remove(muterole).catch(console.error);
+                message.channel.send(`Unmuted ${victim}.`);
             } else {
                 message.channel.send(`Eeek! Something went wrong!`);
             }
