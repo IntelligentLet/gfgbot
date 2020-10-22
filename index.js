@@ -40,25 +40,24 @@ function bytesToSize(bytes) {
 //commands
 client.on('message', message => {
     antiSpam.message(message).catch(console.error);
-    if (message.content.startsWith("!clean")) {
+    if (filter.isProfane(message.content) !== false || filter.isProfaneLike(message.content) !== false) {
+        message.delete();
+        message.channel.send(`${message.author} chill with the profanity please.`);
+    }
+    if (message.content.startsWith("!purge")) {
         var split = message.content.split(" ");
         if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-            try {
-                message.channel.fetchMessages({ limit: messagecount })
-                    .then(messages => message.channel.bulkDelete(messages));
-            }    
-            catch {
-                console.error();
-                message.channel.send('Eeek! Something went wrong.')
+            if (split[1] <= 20) {
+                message.channel.messages.fetch({ limit: split[1] }).then(messages => {
+                    message.channel.bulkDelete(messages
+                )});
+            } else {
+                message.channel.send(`${message.author} dude that's like a lot of messages. Like more than 20.`);
             }
         } else {
             message.channel.send(`${message.member} you don't seem to be a moderator.`); 
         }
         
-    } 
-    if (filter.isProfane(message.content) !== false || filter.isProfaneLike(message.content) !== false) {
-        message.delete();
-        message.channel.send(`${message.author} chill with the profanity please.`);
     }
     if (message.content.startsWith("!ban")) {
         const guild = message.member.guild;
@@ -176,7 +175,7 @@ client.on('message', message => {
             .setDescription('Vortex cheat sheet')
             .setThumbnail('https://i.imgur.com/rALsa7C.png')
             .addFields(
-                { name: 'Ban', value: '!help ban' },
+                { name: 'Mod tools', value: '!help mod' },
                 { name: 'Server stats', value: '!help server' },
                 { name: 'Bot stats', value: '!help info' },
                 { name: 'Simp', value: '!help simp' },
@@ -184,24 +183,45 @@ client.on('message', message => {
             .setTimestamp()
             .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
 
-        if (message.content === "!help ban") {
+        const modembed = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('Moderation Tools')
+            .setDescription('For mods')
+            .setThumbnail('https://i.imgur.com/rALsa7C.png')
+            .addFields(
+                { name: 'Ban', value: '!help ban' },
+                { name: 'Mute', value: '!help mute' },
+                { name: 'Unmute', value: '!help unmute' },
+                { name: 'Purge', value: '!help purge' },
+            )
+            .setTimestamp()
+            .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
 
-            message.channel.send("Mod only: Ban command. ```!ban <user> <time> <reason>```");
-
+        if (message.content === "!help mod") {
+            message.channel.send(modembed);
         } else if (message.content === "!help server") {
-
             message.channel.send("Server stats. ```!server```");
-
         } else if (message.content === "!help info") {
-            
             message.channel.send("Bot stats. ```!info```");
-
         } else if (message.content === "!help simp") {
-            
             message.channel.send("Simp! Simp! Simp! ```!simp```");
-
+        } else if (message.content === "!help ban") {
+            message.channel.send("Ban. ```!ban <user> <reason>```");
+        } else if (message.content === "!help mute") {
+            message.channel.send("Mute. ```!mute <user> <reason>```");
+        } else if (message.content === "!help unmute") {
+            message.channel.send("Unmute. ```!unmute <user>```");
+        } else if (message.content === "!help purge") {
+            message.channel.send("Removes latest messages. ```!purge <message amount>```");
         } else {
             message.channel.send(helpembed);
+        }
+    }
+    if (message.content.startsWith("!say")) {
+        if (filter.isProfane(message.content) === false && filter.isProfaneLike(message.content) === false) {
+            message.delete();
+            var msgtosend = message.content.substring(4, message.content.length);
+            message.channel.send(msgtosend);
         }
     }
 });
