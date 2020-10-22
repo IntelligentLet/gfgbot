@@ -26,15 +26,15 @@ Windows:
 Other systems check https://nodejs.org/en/download/package-manager/ MAKE SURE TO GET NPM AS WELL
 
 # 2) install dependencies
-npm install to install dependencies
-(didn't work? try sudo npm install)
+```npm install``` to install dependencies
+(didn't work? try ```sudo npm install```)
 
 # 3) make your .env file
 This will be where your Discord API token among other things live.
 
-Create and empty file with the name .env
+Create and empty file with the name ```.env```
 
-inside .env:
+inside ```.env```:
 
 ```TOKEN=yourdiscordapitoken```
 
