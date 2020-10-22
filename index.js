@@ -40,7 +40,7 @@ function bytesToSize(bytes) {
 //commands
 client.on('message', message => {
     antiSpam.message(message).catch(console.error);
-    if (filter.isProfane(message.content) !== false || filter.isProfaneLike(message.content) !== false) {
+    if (filter.isProfane(message.content) !== false && message.member.roles.cache.some(role => role.name === 'Mod') === false) {
         message.delete();
         message.channel.send(`${message.author} chill with the profanity please.`);
     }
@@ -158,6 +158,8 @@ client.on('message', message => {
                 { name: 'RAM', value: `${bytesToSize(os.totalmem())}` },
                 { name: 'Bot Uptime', value: `${uptime}` },
                 { name: 'Hostname', value: `${os.hostname()}` },
+                { name: 'Bot ping', value: `${Date.now() - message.createdTimestamp} ms` },
+                { name: 'API Latency', value: `${Math.round(client.ws.ping)} ms`}
             )
             .setTimestamp()
             .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
