@@ -214,11 +214,9 @@ client.on('message', message => {
         }
     }
     if (message.content.startsWith("!say")) {
-        if (filter.isProfane(message.content) === false) {
-            message.delete();
-            var msgtosend = message.content.substring(4, message.content.length);
-            message.channel.send(msgtosend);
-        }
+        message.delete();
+        var msgtosend = message.content.substring(4, message.content.length);
+        message.channel.send(msgtosend);
     }
 });
 
