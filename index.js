@@ -18,9 +18,6 @@ var antiSpam = new AntiSpam({
     ignoreBots: true, 
     verbose: true,
 });
-const Filter = require('bad-words-relaxed'),
-    filter = new Filter();
-filter.removeWords('shit', 'ass', 'fuck');
 require('dotenv').config();
 
 const client = new Discord.Client();
@@ -41,10 +38,6 @@ function bytesToSize(bytes) {
 //commands
 client.on('message', message => {
     antiSpam.message(message).catch(console.error);
-    if (filter.isProfane(message.content) !== false && !(message.author.bot)) {
-        message.delete()
-            .then(message.channel.send(`${message.author} that's a bit too spicy for this server.`));
-    }
     if (message.content.startsWith("!purge")) {
         var split = message.content.split(" ");
         if (message.member.roles.cache.some(role => role.name === 'Mod')) {
