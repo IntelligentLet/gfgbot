@@ -20,6 +20,7 @@ var antiSpam = new AntiSpam({
 });
 const Filter = require('bad-words-relaxed'),
     filter = new Filter();
+filter.removeWords('shit', 'ass', 'fuck');
 require('dotenv').config();
 
 const client = new Discord.Client();
@@ -40,9 +41,9 @@ function bytesToSize(bytes) {
 //commands
 client.on('message', message => {
     antiSpam.message(message).catch(console.error);
-    if (filter.isProfane(message.content) !== false && message.member.roles.cache.some(role => role.name === 'Mod') === false) {
-        message.delete();
-        message.channel.send(`${message.author} chill with the profanity please.`);
+    if (filter.isProfane(message.content) !== false && !(message.author.bot)) {
+        message.delete()
+            .then(message.channel.send(`${message.author} that's a bit too spicy for this server.`));
     }
     if (message.content.startsWith("!purge")) {
         var split = message.content.split(" ");
@@ -55,7 +56,7 @@ client.on('message', message => {
                 message.channel.send(`${message.author} dude that's like a lot of messages. Like more than 20.`);
             }
         } else {
-            message.channel.send(`${message.member} you don't seem to be a moderator.`); 
+            message.channel.send(`${message.member} LOL you thought`); 
         }
         
     }
@@ -73,7 +74,7 @@ client.on('message', message => {
                 message.channel.send(`Eeek! Something went wrong!`);
             }
         } else {
-            message.channel.send(`${message.member} you don't seem to be a moderator.`); 
+            message.channel.send(`${message.member} LOL you thought`); 
         }
     }
     if (message.content.startsWith("!mute")) {
@@ -92,7 +93,7 @@ client.on('message', message => {
                 message.channel.send(`Eeek! Something went wrong!`);
             }
         } else {
-            message.channel.send(`${message.member} you don't seem to be a moderator.`); 
+            message.channel.send(`${message.member} LOL you thought`); 
         }
     }
     if (message.content.startsWith("!unmute")) {
@@ -110,7 +111,7 @@ client.on('message', message => {
                 message.channel.send(`Eeek! Something went wrong!`);
             }
         } else {
-            message.channel.send(`${message.member} you don't seem to be a moderator.`); 
+            message.channel.send(`${message.member} LOL you thought`); 
         }
     }
     if (message.content.startsWith("!server")) {
@@ -220,7 +221,7 @@ client.on('message', message => {
         }
     }
     if (message.content.startsWith("!say")) {
-        if (filter.isProfane(message.content) === false && filter.isProfaneLike(message.content) === false) {
+        if (filter.isProfane(message.content) === false) {
             message.delete();
             var msgtosend = message.content.substring(4, message.content.length);
             message.channel.send(msgtosend);
