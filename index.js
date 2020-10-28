@@ -3,6 +3,7 @@ const fs = require('fs');
 const keepAlive = require('./server');
 const os = require('os');
 const AntiSpam = require('discord-anti-spam');
+const ms = require('ms');
 var antiSpam = new AntiSpam({
     warnThreshold: 6, 
     kickThreshold: 13, 
@@ -43,8 +44,7 @@ client.on('message', message => {
         if (message.member.roles.cache.some(role => role.name === 'Mod')) {
             if (split[1] <= 20) {
                 message.channel.messages.fetch({ limit: split[1] }).then(messages => {
-                    message.channel.bulkDelete(messages
-                )});
+                    message.channel.bulkDelete(messages)});
             } else {
                 message.channel.send(`${message.author} dude that's like a lot of messages. Like more than 20.`);
             }
@@ -77,11 +77,11 @@ client.on('message', message => {
         var victim =  guild.member(message.mentions.users.first());
 
         if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-            if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352")) {
-                let muterole = guild.roles.cache.find(role => role.name === 'Muted');
+            if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352") && victim.roles.cache.some(role => role.name === 'Mod') === false) {
+                var reason = message.content.toString().substring((split[0].length + split[1].length), message.content.toString().length);
+                var muterole = guild.roles.cache.find(role => role.name === 'Muted');
                 victim.roles.add(muterole).catch(console.error);
-                var reason = message.content.toString()
-                message.channel.send(`Muted ${victim} for ${split[2]} for reason ${reason}`);
+                message.channel.send(`Muted ${victim} for reason ${reason.substring(2, reason.length)}`);
             } else {
                 message.channel.send(`Eeek! Something went wrong!`);
             }
@@ -96,7 +96,7 @@ client.on('message', message => {
         var victim =  guild.member(message.mentions.users.first());
 
         if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-            if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352")) {
+            if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352") && victim.roles.cache.some(role => role.name === 'Muted')) {
                 let muterole = guild.roles.cache.find(role => role.name === 'Muted');
                 victim.roles.remove(muterole).catch(console.error);
                 message.channel.send(`Unmuted ${victim}.`);
@@ -153,7 +153,8 @@ client.on('message', message => {
                 { name: 'Bot Uptime', value: `${uptime}` },
                 { name: 'Hostname', value: `${os.hostname()}` },
                 { name: 'Bot ping', value: `${Date.now() - message.createdTimestamp} ms` },
-                { name: 'API Latency', value: `${Math.round(client.ws.ping)} ms`}
+                { name: 'API Latency', value: `${Math.round(client.ws.ping)} ms`},
+                { name: 'Github Repo', value: `https://github.com/IntelligentLet/gfgbot`}
             )
             .setTimestamp()
             .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
@@ -214,20 +215,34 @@ client.on('message', message => {
         }
     }
     if (message.content.startsWith("!say")) {
-        message.delete();
-        var msgtosend = message.content.substring(4, message.content.length);
-        message.channel.send(msgtosend);
+        if (message.member.roles.cache.some(role => role.name === 'Mod')) {
+            message.delete();
+            var msgtosend = message.content.substring(4, message.content.length);
+            message.channel.send(msgtosend);
+        } else {
+            message.delete();
+            message.channel.send(`${message.member} is sipping dum fuk juice!`);
+        }
+    }
+    if (message.content.startsWith("!tts")) {
+        if (message.member.roles.cache.some(role => role.name === 'Mod')) {
+            message.delete();
+            var msgtosend = message.content.substring(4, message.content.length);
+            message.channel.send(msgtosend, { tts: true} );
+        } else {
+            message.delete();
+            message.channel.send(`${message.member} is sipping dum fuk juice!`);
+        }
     }
 });
 
 //when someone joins, give roles and welcome them
 client.on("guildMemberAdd", (member) => {
     const guild = member.guild;
-    const rules = client.channels.cache.get('766386424567693343');
-    var memberCount = (client.guilds.cache.get(guild.id).memberCount);
+    member.roles.add(guild.roles.cache.find(role => role.name === 'Gamer'));
+    var memberCount = (client.guilds.cache.get(user.guild.id).memberCount);
+    const rules = client.channels.cache.get('769958719018237983');
     client.channels.cache.get('766100639826575433').send(`Welcome ${member.user}! You are member #${memberCount}. Please read ${rules} to get started!`);
-    const role = guild.roles.cache.find(role => role.name === 'Gamer');
-    member.roles.add(role);
-}); 
+});
 
 client.login(process.env.TOKEN);
