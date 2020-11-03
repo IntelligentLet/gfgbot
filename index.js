@@ -58,12 +58,13 @@ client.on('message', message => {
         const guild = message.member.guild;
 
         var split = message.content.split(" ");
-        var victim =  message.mentions.users.first();
+        var victim =  guild.member(message.mentions.users.first());
 
         if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-            if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352")) {
+            if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352") && victim.roles.cache.some(role => role.name === 'Mod') === false) {
+                var reason = message.content.toString().substring((split[0].length + split[1].length), message.content.toString().length);
                 guild.members.ban(victim);
-                message.channel.send(`Banned ${victim} for ${split[2]} days for reason ${split[3]}.`);
+                message.channel.send(`Banned ${victim} for reason ${reason.substring(2, reason.length)}`);
             } else {
                 message.channel.send(`Eeek! Something went wrong!`);
             }
