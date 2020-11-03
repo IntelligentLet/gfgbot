@@ -37,6 +37,7 @@ function bytesToSize(bytes) {
 }
 
 //commands
+
 client.on('message', message => {
     antiSpam.message(message).catch(console.error);
     if (message.content.startsWith("!purge")) {
@@ -239,10 +240,11 @@ client.on('message', message => {
 //when someone joins, give roles and welcome them
 client.on("guildMemberAdd", (member) => {
     const guild = member.guild;
-    member.roles.add(guild.roles.cache.find(role => role.name === 'Gamer'));
-    var memberCount = (client.guilds.cache.get(user.guild.id).memberCount);
-    const rules = client.channels.cache.get('769958719018237983');
-    client.channels.cache.get('766100639826575433').send(`Welcome ${member.user}! You are member #${memberCount}. Please read ${rules} to get started!`);
-});
+    const rules = client.channels.cache.get('766386424567693343');
+    var memberCount = (client.guilds.cache.get(guild.id).memberCount);
+    client.channels.cache.get('766100639826575433').send(`Welcome ${member.user}! You are member #${memberCount}. Please read ${rules} to get started!`).catch(console.error);
+    const role = guild.roles.cache.find(role => role.name === 'Gamer');
+    member.roles.add(role);
+}); 
 
 client.login(process.env.TOKEN);
