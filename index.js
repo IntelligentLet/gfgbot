@@ -4,6 +4,7 @@ const keepAlive = require('./server');
 const os = require('os');
 const AntiSpam = require('discord-anti-spam');
 const ms = require('ms');
+const crypto = require('crypto');
 var antiSpam = new AntiSpam({
     warnThreshold: 6, 
     kickThreshold: 13, 
@@ -235,6 +236,19 @@ client.on('message', message => {
             message.delete();
             message.channel.send(`${message.member} is sipping dum fuk juice!`);
         }
+    }
+    // ok fun commands here
+    if (message.content.startsWith("!sha256")) {
+        var hash = (args) => {
+            return crypto.createHash('sha256').update(args).digest('hex');
+        }
+        message.channel.send(hash(message.content.substring(8, message.content.length)));
+    }
+    if (message.content.startsWith("!md5")) {
+        var hash = (args) => {
+            return crypto.createHash('md5').update(args).digest('hex');
+        }
+        message.channel.send(hash(message.content.substring(5, message.content.length)));
     }
 });
 
