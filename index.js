@@ -5,9 +5,10 @@ const os = require('os');
 const AntiSpam = require('discord-anti-spam');
 const ms = require('ms');
 const crypto = require('crypto');
+const randomPuppy = require('random-puppy');
 var antiSpam = new AntiSpam({
-    warnThreshold: 6, 
-    kickThreshold: 13, 
+    warnThreshold: 8, 
+    kickThreshold: 15, 
     banThreshold: 18,
     maxInterval: 4000,
     maxDuplicatesWarning: 3,
@@ -21,6 +22,8 @@ var antiSpam = new AntiSpam({
     verbose: true,
 });
 require('dotenv').config();
+
+const distros = ['RHEL', 'CentOS', 'Fedora', 'openSUSE', 'Debian', 'Ubuntu', 'Kali HAXXR', 'Linux Mint', 'Arch', 'Manjaro', 'Artix', 'Arco', 'Gentoo', 'Void', 'Raspbian', 'Black Arch'];
 
 const client = new Discord.Client();
 keepAlive();
@@ -183,6 +186,22 @@ client.on('message', message => {
             .setTimestamp()
             .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
 
+        const funcommands = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('Fun commands!')
+            .setDescription('Cool commands to play around with')
+            .setThumbnail('https://i.imgur.com/rALsa7C.png')
+            .addFields(
+                { name: 'sha256', value: '!sha256 <string>' },
+                { name: 'sha512', value: '!sha512 <string>' },
+                { name: 'md5', value: '!md5 <string>' },
+                { name: 'puppy', value: '!puppy' },
+                { name: 'meme', value: '!meme' },
+                { name: 'distro', value: '!linux' }
+            )
+            .setTimestamp()
+            .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png');
+
         const modembed = new Discord.MessageEmbed()
             .setColor('#0099ff')
             .setTitle('Moderation Tools')
@@ -199,6 +218,8 @@ client.on('message', message => {
 
         if (message.content === "!help mod") {
             message.channel.send(modembed);
+        } else if (message.content === "!help fun") {
+            message.channel.send(funcommands);
         } else if (message.content === "!help server") {
             message.channel.send("Server stats. ```!server```");
         } else if (message.content === "!help info") {
@@ -249,6 +270,27 @@ client.on('message', message => {
             return crypto.createHash('md5').update(args).digest('hex');
         }
         message.channel.send(hash(message.content.substring(5, message.content.length)));
+    }
+    if (message.content.startsWith("!sha512")) {
+        var hash = (args) => {
+            return crypto.createHash('sha512').update(args).digest('hex');
+        }
+        message.channel.send(hash(message.content.substring(8, message.content.length)));
+    }
+    if (message.content === '!puppy') {
+        randomPuppy()
+            .then(url => {
+                message.channel.send(url);
+            })
+    }
+    if (message.content === '!meme') {
+        randomPuppy('memes')
+            .then(url => {
+                message.channel.send(url);
+            })
+    }
+    if (message.content === '!linux') {
+        message.channel.send(distros[Math.floor(Math.random() * distros.length)]);
     }
 });
 
