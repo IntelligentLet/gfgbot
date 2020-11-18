@@ -200,7 +200,7 @@ client.on('message', message => {
                 { name: 'distro', value: '!linux' }
             )
             .setTimestamp()
-            .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png');
+            .setFooter('Created by LogicGo#7666', 'https://i.imgur.com/iglEZPr.png');
 
         const modembed = new Discord.MessageEmbed()
             .setColor('#0099ff')
@@ -214,7 +214,7 @@ client.on('message', message => {
                 { name: 'Purge', value: '!help purge' },
             )
             .setTimestamp()
-            .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
+            .setFooter('Created by LogicGo#7666', 'https://i.imgur.com/iglEZPr.png'); 
 
         if (message.content === "!help mod") {
             message.channel.send(modembed);
@@ -296,11 +296,10 @@ client.on('message', message => {
 
 //when someone joins, give roles and welcome them
 client.on("guildMemberAdd", (member) => {
-    const guild = member.guild;
     const rules = client.channels.cache.get('766386424567693343');
-    var memberCount = (client.guilds.cache.get(guild.id).memberCount);
+    var memberCount = (client.guilds.cache.get(member.guild.id).memberCount);
     client.channels.cache.get('766100639826575433').send(`Welcome ${member.user}! You are member #${memberCount}. Please read ${rules} to get started!`).catch(console.error);
-    const role = guild.roles.cache.find(role => role.name === 'Gamer');
+    const role = member.guild.roles.cache.find(role => role.name === 'Gamer');
     member.roles.add(role);
 }); 
 
