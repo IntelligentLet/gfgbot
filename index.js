@@ -6,6 +6,7 @@ const AntiSpam = require('discord-anti-spam');
 const ms = require('ms');
 const crypto = require('crypto');
 const randomPuppy = require('random-puppy');
+const { SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG } = require('constants');
 var antiSpam = new AntiSpam({
     warnThreshold: 8, 
     kickThreshold: 15, 
@@ -50,8 +51,10 @@ client.on('message', message => {
             if (split[1] <= 20) {
                 message.channel.messages.fetch({ limit: split[1] }).then(messages => {
                     message.channel.bulkDelete(messages)});
-            } else {
+            } else if (split[1] > 20) {
                 message.channel.send(`${message.author} dude that's like a lot of messages. Like more than 20.`);
+            } else {
+                message.channel.send("Eeek! Something went wrong!")
             }
         } else {
             message.channel.send(`${message.member} LOL you thought`); 
