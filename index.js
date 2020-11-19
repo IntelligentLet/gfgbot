@@ -24,8 +24,6 @@ var antiSpam = new AntiSpam({
 });
 require('dotenv').config();
 
-const distros = ['RHEL', 'CentOS', 'Fedora', 'openSUSE', 'Debian', 'Ubuntu', 'Kali HAXXR', 'Linux Mint', 'Arch', 'Manjaro', 'Artix', 'Arco', 'Gentoo', 'Void', 'Raspbian', 'Black Arch'];
-
 const client = new Discord.Client();
 keepAlive();
 
@@ -184,7 +182,7 @@ client.on('message', message => {
                 { name: 'Mod tools', value: '!help mod' },
                 { name: 'Server stats', value: '!help server' },
                 { name: 'Bot stats', value: '!help info' },
-                { name: 'Simp', value: '!help simp' },
+                { name: 'Fun', value: '!help fun' }
             )
             .setTimestamp()
             .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
@@ -200,7 +198,9 @@ client.on('message', message => {
                 { name: 'md5', value: '!md5 <string>' },
                 { name: 'puppy', value: '!puppy' },
                 { name: 'meme', value: '!meme' },
-                { name: 'distro', value: '!linux' }
+                { name: 'linux meme', value: '!lmeme' },
+                { name: 'programming meme', value: '!pmeme' },
+                { name: 'S I M P', value: '!simp' }
             )
             .setTimestamp()
             .setFooter('Created by LogicGo#7666', 'https://i.imgur.com/iglEZPr.png');
@@ -211,10 +211,10 @@ client.on('message', message => {
             .setDescription('For mods')
             .setThumbnail('https://i.imgur.com/rALsa7C.png')
             .addFields(
-                { name: 'Ban', value: '!help ban' },
-                { name: 'Mute', value: '!help mute' },
-                { name: 'Unmute', value: '!help unmute' },
-                { name: 'Purge', value: '!help purge' },
+                { name: 'Ban', value: '!ban <user>' },
+                { name: 'Mute', value: '!mute <user>' },
+                { name: 'Unmute', value: '!unmute <user>' },
+                { name: 'Purge', value: '!purge <message amount>' },
             )
             .setTimestamp()
             .setFooter('Created by LogicGo#7666', 'https://i.imgur.com/iglEZPr.png'); 
@@ -227,16 +227,6 @@ client.on('message', message => {
             message.channel.send("Server stats. ```!server```");
         } else if (message.content === "!help info") {
             message.channel.send("Bot stats. ```!info```");
-        } else if (message.content === "!help simp") {
-            message.channel.send("Simp! Simp! Simp! ```!simp```");
-        } else if (message.content === "!help ban") {
-            message.channel.send("Ban. ```!ban <user> <reason>```");
-        } else if (message.content === "!help mute") {
-            message.channel.send("Mute. ```!mute <user> <reason>```");
-        } else if (message.content === "!help unmute") {
-            message.channel.send("Unmute. ```!unmute <user>```");
-        } else if (message.content === "!help purge") {
-            message.channel.send("Removes latest messages. ```!purge <message amount>```");
         } else {
             message.channel.send(helpembed);
         }
@@ -292,8 +282,17 @@ client.on('message', message => {
                 message.channel.send(url);
             })
     }
-    if (message.content === '!linux') {
-        message.channel.send(distros[Math.floor(Math.random() * distros.length)]);
+    if (message.content === '!lmeme') {
+        randomPuppy('linuxmemes')
+            .then(url => {
+                message.channel.send(url);
+            })
+    }
+    if (message.content === '!pmeme') {
+        randomPuppy('programmerhumor')
+            .then(url => {
+                message.channel.send(url);
+            })
     }
 });
 
