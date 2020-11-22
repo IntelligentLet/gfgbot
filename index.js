@@ -1,12 +1,9 @@
 const Discord = require('discord.js');
-const fs = require('fs');
 const keepAlive = require('./server');
 const os = require('os');
 const AntiSpam = require('discord-anti-spam');
-const ms = require('ms');
 const crypto = require('crypto');
 const randomPuppy = require('random-puppy');
-const { SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG } = require('constants');
 var antiSpam = new AntiSpam({
     warnThreshold: 8, 
     kickThreshold: 15, 
