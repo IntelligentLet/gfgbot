@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
 const keepAlive = require('./server');
-const os = require('os');
 const AntiSpam = require('discord-anti-spam');
 const crypto = require('crypto');
 const randomPuppy = require('random-puppy');
+const os = require('os');
+const { cpuUsage } = require('process');
 var antiSpam = new AntiSpam({
     warnThreshold: 8, 
     kickThreshold: 15, 
@@ -152,10 +153,9 @@ client.on('message', message => {
             .setThumbnail('https://i.imgur.com/rALsa7C.png')
             .addFields(
                 { name: 'OS', value: `${os.type()} ${os.release()}` },
-                { name: 'CPU architecture', value: `${os.arch()}` },
-                { name: 'RAM', value: `${bytesToSize(os.totalmem())}` },
+                { name: 'CPU', value: `${JSON.stringify(os.cpus()[0].model).toString().slice(1).slice(0, -1)} (${(os.cpus()).length} cores)` },
+                { name: 'RAM', value: `${Math.floor((process.memoryUsage().heapUsed / 1024 / 1024))} MB / ${Math.floor((os.totalmem() / 1024 / 1024))} MB` },
                 { name: 'Bot Uptime', value: `${uptime}` },
-                { name: 'Hostname', value: `${os.hostname()}` },
                 { name: 'Bot ping', value: `${Date.now() - message.createdTimestamp} ms` },
                 { name: 'API Latency', value: `${Math.round(client.ws.ping)} ms`},
                 { name: 'Github Repo', value: `https://github.com/IntelligentLet/gfgbot`}
@@ -183,7 +183,7 @@ client.on('message', message => {
                 { name: 'Fun', value: '!help fun' }
             )
             .setTimestamp()
-            .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
+            .setFooter('Created by Logicgo#7666', 'https://i.imgur.com/iglEZPr.png'); 
 
         const funcommands = new Discord.MessageEmbed()
             .setColor('#0099ff')
