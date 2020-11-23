@@ -179,6 +179,7 @@ client.on('message', message => {
                 { name: 'Mod tools', value: '!help mod' },
                 { name: 'Server stats', value: '!help server' },
                 { name: 'Bot stats', value: '!help info' },
+                { name: 'Contribute', value: '!help contribute' },
                 { name: 'Fun', value: '!help fun' }
             )
             .setTimestamp()
@@ -224,6 +225,8 @@ client.on('message', message => {
             message.channel.send("Server stats. ```!server```");
         } else if (message.content === "!help info") {
             message.channel.send("Bot stats. ```!info```");
+        } else if (message.content === "!help contribute") {
+            message.channel.send("Help with development. ```!contribute```");
         } else {
             message.channel.send(helpembed);
         }
@@ -291,7 +294,7 @@ client.on('message', message => {
                 message.channel.send(url);
             })
     }
-    if (message.content == '!basilisk') {
+    if (message.content === '!basilisk') {
         function genrnd(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -302,6 +305,9 @@ client.on('message', message => {
         } else {
             message.channel.send("❤️");
         }
+    }
+    if (message.content === '!contribute') {
+        message.channel.send('Hi! This is the lead developer of Vortex, LogicGo#7666. If you want to contribute to the bot, or would like to submit bug reports, please submit an issue or pull request at https://github.com/IntelligentLet/gfgbot . Thanks!');
     }
     
 });
