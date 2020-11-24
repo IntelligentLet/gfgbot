@@ -4,7 +4,6 @@ const AntiSpam = require('discord-anti-spam');
 const crypto = require('crypto');
 const randomPuppy = require('random-puppy');
 const os = require('os');
-const { cpuUsage } = require('process');
 var antiSpam = new AntiSpam({
     warnThreshold: 8, 
     kickThreshold: 15, 
@@ -30,19 +29,11 @@ client.once('ready', () => {
     client.user.setActivity('messages fly by', { type: 'WATCHING' });
 });
 
-function bytesToSize(bytes) {
-    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes == 0) return '0 Byte';
-    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-}
-
 //commands
 
-client.on('message', message => {
-    if (message.guild !== null) {
+client.on('message', message => { if (message.guild !== null) {
     antiSpam.message(message).catch(console.error);
-        if (message.content.startsWith("!purge")) {
+    if (message.content.startsWith("!purge")) {
             var split = message.content.split(" ");
             if (message.member.roles.cache.some(role => role.name === 'Mod')) {
                 if (split[1] <= 20) {
@@ -57,8 +48,8 @@ client.on('message', message => {
                 message.channel.send(`${message.member} LOL you thought`); 
             }
             
-        }
-        if (message.content.startsWith("!ban")) {
+    }
+    if (message.content.startsWith("!ban")) {
             const guild = message.member.guild;
 
             var split = message.content.split(" ");
@@ -75,8 +66,8 @@ client.on('message', message => {
             } else {
                 message.channel.send(`${message.member} LOL you thought`); 
             }
-        }
-        if (message.content.startsWith("!mute")) {
+    }
+    if (message.content.startsWith("!mute")) {
             const guild = message.member.guild;
 
             var split = message.content.split(" ");
@@ -94,8 +85,8 @@ client.on('message', message => {
             } else {
                 message.channel.send(`${message.member} LOL you thought`); 
             }
-        }
-        if (message.content.startsWith("!unmute")) {
+    }
+    if (message.content.startsWith("!unmute")) {
             const guild = message.member.guild;
 
             var split = message.content.split(" ");
@@ -112,8 +103,8 @@ client.on('message', message => {
             } else {
                 message.channel.send(`${message.member} LOL you thought`); 
             }
-        }
-        if (message.content.startsWith("!server")) {
+    }
+    if (message.content.startsWith("!server")) {
             const thisguild = message.member.guild;
             var memberCount = (client.guilds.cache.get(thisguild.id).memberCount);
             var vchannels = message.guild.channels.cache.filter(c => c.type === 'voice').size;
@@ -135,8 +126,8 @@ client.on('message', message => {
                 .setTimestamp()
                 .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png');
             message.channel.send(serverembed);
-        }
-        if (message.content.startsWith("!info")) {
+    }
+    if (message.content.startsWith("!info")) {
             let totalSeconds = (client.uptime / 1000);
             let days = Math.floor(totalSeconds / 86400);
             totalSeconds %= 86400;
@@ -165,11 +156,11 @@ client.on('message', message => {
                 .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
             
             message.channel.send(hostinfo);
-        }
-        if (message.content.startsWith("!simp")) {
+    }
+    if (message.content.startsWith("!simp")) {
             message.channel.send("SIMP SIMP SIMP SIMP SIMP SIMP SIMP SIMP");
-        }
-        if (message.content.startsWith("!help")) {
+    }
+    if (message.content.startsWith("!help")) {
             
             const helpembed = new Discord.MessageEmbed()
                 .setColor('#0099ff')
@@ -231,8 +222,8 @@ client.on('message', message => {
             } else {
                 message.channel.send(helpembed);
             }
-        }
-        if (message.content.startsWith("!say")) {
+    }
+    if (message.content.startsWith("!say")) {
             if (message.member.roles.cache.some(role => role.name === 'Mod')) {
                 message.delete();
                 var msgtosend = message.content.substring(4, message.content.length);
@@ -241,8 +232,8 @@ client.on('message', message => {
                 message.delete();
                 message.channel.send(`${message.member} is sipping dum fuk juice!`);
             }
-        }
-        if (message.content.startsWith("!tts")) {
+    }
+    if (message.content.startsWith("!tts")) {
             if (message.member.roles.cache.some(role => role.name === 'Mod')) {
                 message.delete();
                 var msgtosend = message.content.substring(4, message.content.length);
@@ -251,51 +242,51 @@ client.on('message', message => {
                 message.delete();
                 message.channel.send(`${message.member} is sipping dum fuk juice!`);
             }
-        }
-        // ok fun commands here
-        if (message.content.startsWith("!sha256")) {
+    }
+    // ok fun commands here
+    if (message.content.startsWith("!sha256")) {
             var hash = (args) => {
                 return crypto.createHash('sha256').update(args).digest('hex');
             }
             message.channel.send(hash(message.content.substring(8, message.content.length)));
-        }
-        if (message.content.startsWith("!md5")) {
+    }
+    if (message.content.startsWith("!md5")) {
             var hash = (args) => {
                 return crypto.createHash('md5').update(args).digest('hex');
             }
             message.channel.send(hash(message.content.substring(5, message.content.length)));
-        }
-        if (message.content.startsWith("!sha512")) {
+    }
+    if (message.content.startsWith("!sha512")) {
             var hash = (args) => {
                 return crypto.createHash('sha512').update(args).digest('hex');
             }
             message.channel.send(hash(message.content.substring(8, message.content.length)));
-        }
-        if (message.content === '!puppy') {
+    }
+    if (message.content === '!puppy') {
             randomPuppy()
                 .then(url => {
                     message.channel.send(url);
                 })
-        }
-        if (message.content === '!meme') {
+    }
+    if (message.content === '!meme') {
             randomPuppy('memes')
                 .then(url => {
                     message.channel.send(url);
                 })
-        }
-        if (message.content === '!lmeme') {
+    }
+    if (message.content === '!lmeme') {
             randomPuppy('linuxmemes')
                 .then(url => {
                     message.channel.send(url);
                 })
-        }
-        if (message.content === '!pmeme') {
+    }
+    if (message.content === '!pmeme') {
             randomPuppy('programmerhumor')
                 .then(url => {
                     message.channel.send(url);
                 })
-        }
-        if (message.content === '!basilisk') {
+    }
+    if (message.content === '!basilisk') {
             function genrnd(min, max) {
                 min = Math.ceil(min);
                 max = Math.floor(max);
@@ -306,16 +297,15 @@ client.on('message', message => {
             } else {
                 message.channel.send("❤️");
             }
-        }
-        if (message.content === '!contribute') {
-            message.channel.send('Hi! This is the lead developer of Vortex, LogicGo#7666. If you want to contribute to the bot, or would like to submit bug reports, please submit an issue or pull request at https://github.com/IntelligentLet/gfgbot . Thanks!');
-        }
-        if (message.content === '!coin') {
+    }
+    if (message.content === '!contribute') {
+        message.channel.send('Hi! This is the lead developer of Vortex, LogicGo#7666. If you want to contribute to the bot, or would like to submit bug reports, please submit an issue or pull request at https://github.com/IntelligentLet/gfgbot . Thanks!');
+    }
+    if (message.content === '!coin') {
             var options = ['Heads', 'Tails'];
             message.channel.send(`🪙 ${options[Math.floor(Math.random() * options.length)]}!`);
-        }
     }
-});
+}});
 //when someone joins, give roles and welcome them
 client.on("guildMemberAdd", (member) => {
     const rules = client.channels.cache.get('766386424567693343');
