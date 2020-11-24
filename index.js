@@ -1,9 +1,13 @@
 const Discord = require('discord.js');
-const keepAlive = require('./server');
 const AntiSpam = require('discord-anti-spam');
 const crypto = require('crypto');
 const randomPuppy = require('random-puppy');
 const os = require('os');
+const express = require('express');
+const server = express();
+server.all('/', (req, res)=>{
+    res.send('Your bot is alive!')
+})
 var antiSpam = new AntiSpam({
     warnThreshold: 8, 
     kickThreshold: 15, 
@@ -22,7 +26,6 @@ var antiSpam = new AntiSpam({
 require('dotenv').config();
 
 const client = new Discord.Client();
-keepAlive();
 
 client.once('ready', () => {
     console.log('app ready');
