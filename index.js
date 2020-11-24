@@ -190,7 +190,9 @@ client.on('message', message => { if (message.guild !== null) {
                     { name: 'meme', value: '!meme' },
                     { name: 'linux meme', value: '!lmeme' },
                     { name: 'programming meme', value: '!pmeme' },
-                    { name: 'S I M P', value: '!simp' }
+                    { name: 'S I M P', value: '!simp' },
+                    { name: 'Coin flip', value: '!coin'},
+                    { name: 'Math', value: '!math <string>'}
                 )
                 .setTimestamp()
                 .setFooter('Created by LogicGo#7666', 'https://i.imgur.com/iglEZPr.png');
@@ -304,6 +306,14 @@ client.on('message', message => { if (message.guild !== null) {
     if (message.content === '!coin') {
             var options = ['Heads', 'Tails'];
             message.channel.send(`🪙 ${options[Math.floor(Math.random() * options.length)]}!`);
+    }
+    if (message.content.startsWith('!math')) {
+        try {
+            message.channel.send(eval(message.content.substring(5, message.content.length)));
+        }
+        catch {
+            message.channel.send("Eeek! Something went wrong!")
+        }
     }
 }});
 //when someone joins, give roles and welcome them
