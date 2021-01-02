@@ -145,7 +145,7 @@ client.on('message', message => { if (message.guild !== null) {
                 .setThumbnail('https://i.imgur.com/rALsa7C.png')
                 .addFields(
                     { name: 'OS', value: `${os.type()} ${os.release()}` },
-                    { name: 'CPU', value: `${JSON.stringify(os.cpus()[0].model).toString().slice(1).slice(0, -1)} (${(os.cpus()).length} cores)` },
+                    { name: 'CPU', value: `${JSON.stringify(os.cpus()[0].model).toString().slice(1).slice(0, -1)}` },
                     { name: 'RAM', value: `${Math.floor((process.memoryUsage().heapUsed / 1024 / 1024))} MB / ${Math.floor((os.totalmem() / 1024 / 1024))} MB` },
                     { name: 'Bot Uptime', value: `${uptime}` },
                     { name: 'Bot ping', value: `${Date.now() - message.createdTimestamp} ms` },
