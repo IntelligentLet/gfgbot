@@ -33,6 +33,37 @@ client.once('ready', () => {
 
 client.on('message', message => { if (message.guild !== null) {
     antiSpam.message(message).catch(console.error);
+    if (message.content.includes("grabify.link") ||
+        message.content.includes("lovebird.guru") ||
+        message.content.includes("trulove.guru") ||
+        message.content.includes("dateing.club") ||
+        message.content.includes("otherhalf.life") ||
+        message.content.includes("shrekis.life") ||
+        message.content.includes("datasig.io") ||
+        message.content.includes("datauth.io") ||
+        message.content.includes("headshot.monster") ||
+        message.content.includes("gaming-at-my.best") ||
+        message.content.includes("progaming.monster") ||
+        message.content.includes("yourmy.monster") ||
+        message.content.includes("screenshare.host") ||
+        message.content.includes("imageshare.best") ||
+        message.content.includes("screenshot.best") ||
+        message.content.includes("gamingfun.me") ||
+        message.content.includes("catsnthing.com") ||
+        message.content.includes("mypic.icu") ||
+        message.content.includes("catsnthings.fun") ||
+        message.content.includes("curiouscat.club") ||
+        message.content.includes("joinmy.site") ||
+        message.content.includes("fortnitechat.site") ||
+        message.content.includes("fortnight.space") ||
+        message.content.includes("freegiftcards.co") ||
+        message.content.includes("stopify.co") ||
+        message.content.includes("leancoding.co")
+    && !message.author.bot) {
+        message.delete();
+        message.channel.send(`No grabify links please ${message.author}`);
+    }
+
     if (message.content.startsWith("!purge")) {
             var split = message.content.split(" ");
             if (message.member.roles.cache.some(role => role.name === 'Mod')) {
