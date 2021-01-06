@@ -31,8 +31,10 @@ client.once('ready', () => {
 
 //commands
 
-client.on('message', message => { if (message.guild !== null) {
+client.on('message', message => {
     antiSpam.message(message).catch(console.error);
+    if (message.guild === null) { return }
+    if (message.author.bot) { return }
     if (message.content.includes("grabify.link") ||
         message.content.includes("lovebird.guru") ||
         message.content.includes("trulove.guru") ||
@@ -59,7 +61,7 @@ client.on('message', message => { if (message.guild !== null) {
         message.content.includes("freegiftcards.co") ||
         message.content.includes("stopify.co") ||
         message.content.includes("leancoding.co")
-    && !message.author.bot) {
+    ) {
         message.delete();
         message.channel.send(`No grabify links please ${message.author}`);
     }
@@ -87,7 +89,7 @@ client.on('message', message => { if (message.guild !== null) {
             var victim =  guild.member(message.mentions.users.first());
 
             if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-                if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352") && victim.roles.cache.some(role => role.name === 'Mod') === false) {
+                if (guild.member(victim) && victim.roles.cache.some(role => role.name === 'Mod') === false) {
                     var reason = message.content.toString().substring((split[0].length + split[1].length), message.content.toString().length);
                     guild.members.ban(victim);
                     message.channel.send(`Banned ${victim} for reason ${reason.substring(2, reason.length)}`);
@@ -105,7 +107,7 @@ client.on('message', message => { if (message.guild !== null) {
             var victim =  guild.member(message.mentions.users.first());
 
             if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-                if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352") && victim.roles.cache.some(role => role.name === 'Mod') === false) {
+                if (guild.member(victim) && victim.roles.cache.some(role => role.name === 'Mod') === false) {
                     var reason = message.content.toString().substring((split[0].length + split[1].length), message.content.toString().length);
                     var muterole = guild.roles.cache.find(role => role.name === 'Muted');
                     victim.roles.add(muterole).catch(console.error);
@@ -124,7 +126,7 @@ client.on('message', message => { if (message.guild !== null) {
             var victim =  guild.member(message.mentions.users.first());
 
             if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-                if (guild.member(victim) && victim !== client.users.cache.get("766455342644068352") && victim.roles.cache.some(role => role.name === 'Muted')) {
+                if (guild.member(victim) && victim.roles.cache.some(role => role.name === 'Muted')) {
                     let muterole = guild.roles.cache.find(role => role.name === 'Muted');
                     victim.roles.remove(muterole).catch(console.error);
                     message.channel.send(`Unmuted ${victim}.`);
@@ -346,7 +348,7 @@ client.on('message', message => { if (message.guild !== null) {
             message.channel.send("Eeek! Something went wrong!")
         }
     }
-}});
+});
 //when someone joins, give roles and welcome them
 client.on("guildMemberAdd", (member) => {
     const rules = client.channels.cache.get('766386424567693343');
