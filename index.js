@@ -358,4 +358,4 @@ client.on("guildMemberAdd", (member) => {
     member.roles.add(role);
 }); 
 
-client.login(process.env.TOKEN);
+client.login(process.env.DISCORD);
