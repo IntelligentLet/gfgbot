@@ -333,9 +333,6 @@ client.on('message', message => {
                 message.channel.send("❤️");
             }
     }
-    if (message.content === '!contribute') {
-        message.channel.send('Hi! This is the lead developer of Vortex, LogicGo#7666. If you want to contribute to the bot, or would like to submit bug reports, please submit an issue or pull request at https://github.com/IntelligentLet/gfgbot . Thanks!');
-    }
     if (message.content === '!coin') {
             var options = ['Heads', 'Tails'];
             message.channel.send(`🪙 ${options[Math.floor(Math.random() * options.length)]}!`);
