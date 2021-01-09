@@ -33,7 +33,8 @@ module.exports = {
                 { name: 'S I M P', value: '!simp' },
                 { name: 'Coin flip', value: '!coin'},
                 { name: 'Math', value: '!math <string>'},
-                { name: 'Crypto', value: '!crypto <btc, eth, ltc, xmr, doge>'}
+                { name: 'Crypto', value: '!crypto <btc, eth, ltc, xmr, doge>'},
+                { name: 'Weather', value: '!weather <city> <country>'}
             )
             .setTimestamp()
             .setFooter('Created by LogicGo#7666', 'https://i.imgur.com/iglEZPr.png');
