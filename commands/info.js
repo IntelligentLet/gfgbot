@@ -27,7 +27,7 @@ module.exports = {
                 { name: 'Github Repo', value: `https://github.com/IntelligentLet/gfgbot`}
             )
             .setTimestamp()
-            .setFooter('Created by Intelligent_Let#7666', 'https://i.imgur.com/iglEZPr.png'); 
+            .setFooter('Created by LogicGo#7666', 'https://i.imgur.com/iglEZPr.png'); 
             
         message.channel.send(hostinfo);
     },

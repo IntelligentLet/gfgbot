@@ -32,7 +32,8 @@ module.exports = {
                 { name: 'programming meme', value: '!pmeme' },
                 { name: 'S I M P', value: '!simp' },
                 { name: 'Coin flip', value: '!coin'},
-                { name: 'Math', value: '!math <string>'}
+                { name: 'Math', value: '!math <string>'},
+                { name: 'Crypto', value: '!crypto <btc, eth, ltc, xmr, doge>'}
             )
             .setTimestamp()
             .setFooter('Created by LogicGo#7666', 'https://i.imgur.com/iglEZPr.png');
