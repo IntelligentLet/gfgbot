@@ -12,7 +12,6 @@ module.exports = {
                 { name: 'Mod tools', value: '!help mod' },
                 { name: 'Server stats', value: '!help server' },
                 { name: 'Bot stats', value: '!help info' },
-                { name: 'Contribute', value: '!help contribute' },
                 { name: 'Fun', value: '!help fun' }
             )
             .setTimestamp()
@@ -60,8 +59,6 @@ module.exports = {
             message.channel.send("Server stats. ```!server```");
         } else if (message.content === "!help info") {
             message.channel.send("Bot stats. ```!info```");
-        } else if (message.content === "!help contribute") {
-            message.channel.send("Help with development. ```!contribute```");
         } else {
             message.channel.send(helpembed);
         }

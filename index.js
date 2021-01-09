@@ -1,9 +1,11 @@
 const Discord = require('discord.js');
 const AntiSpam = require('discord-anti-spam');
-const crypto = require('crypto');
-const randomPuppy = require('random-puppy');
 const fs = require('fs');
-const keepAlive = require('./server');
+const express = require('express');
+
+const server = express();
+require('dotenv').config();
+
 var antiSpam = new AntiSpam({
     warnThreshold: 8, 
     kickThreshold: 15, 
@@ -19,10 +21,10 @@ var antiSpam = new AntiSpam({
     ignoreBots: true, 
     verbose: true,
 });
-require('dotenv').config();
 const prefix = '!';
 
-keepAlive();
+server.listen(process.env.PORT || 5000);
+
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
@@ -33,19 +35,18 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-
 client.once('ready', () => {
     console.log('app ready');
     client.user.setActivity('messages fly by', { type: 'WATCHING' });
 });
-
-//commands
 
 client.on('message', message => {
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
 	if (!client.commands.has(command)) return;
+    if (message.author.bot) return;
+    if (message.guild === null) return;
 
     try {
     	client.commands.get(command).execute(message, args, client);
@@ -54,10 +55,8 @@ client.on('message', message => {
     	message.reply('there was an error trying to execute that command!');
     }
 
-    
     antiSpam.message(message).catch(console.error);
-    if (message.guild === null) { return }
-    if (message.author.bot) { return }
+
     if (message.content.includes("grabify.link") ||
         message.content.includes("lovebird.guru") ||
         message.content.includes("trulove.guru") ||
@@ -87,94 +86,6 @@ client.on('message', message => {
     ) {
         message.delete();
         message.channel.send(`No grabify links please ${message.author}`);
-    }
-
-    if (message.content.startsWith("!say")) {
-            if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-                message.delete();
-                var msgtosend = message.content.substring(4, message.content.length);
-                message.channel.send(msgtosend);
-            } else {
-                message.delete();
-                message.channel.send(`${message.member} is sipping dum fuk juice!`);
-            }
-    }
-    if (message.content.startsWith("!tts")) {
-            if (message.member.roles.cache.some(role => role.name === 'Mod')) {
-                message.delete();
-                var msgtosend = message.content.substring(4, message.content.length);
-                message.channel.send(msgtosend, { tts: true} );
-            } else {
-                message.delete();
-                message.channel.send(`${message.member} is sipping dum fuk juice!`);
-            }
-    }
-    // ok fun commands here
-    if (message.content.startsWith("!sha256")) {
-            var hash = (args) => {
-                return crypto.createHash('sha256').update(args).digest('hex');
-            }
-            message.channel.send(hash(message.content.substring(8, message.content.length)));
-    }
-    if (message.content.startsWith("!md5")) {
-            var hash = (args) => {
-                return crypto.createHash('md5').update(args).digest('hex');
-            }
-            message.channel.send(hash(message.content.substring(5, message.content.length)));
-    }
-    if (message.content.startsWith("!sha512")) {
-            var hash = (args) => {
-                return crypto.createHash('sha512').update(args).digest('hex');
-            }
-            message.channel.send(hash(message.content.substring(8, message.content.length)));
-    }
-    if (message.content === '!puppy') {
-            randomPuppy()
-                .then(url => {
-                    message.channel.send(url);
-                })
-    }
-    if (message.content === '!meme') {
-            randomPuppy('memes')
-                .then(url => {
-                    message.channel.send(url);
-                })
-    }
-    if (message.content === '!lmeme') {
-            randomPuppy('linuxmemes')
-                .then(url => {
-                    message.channel.send(url);
-                })
-    }
-    if (message.content === '!pmeme') {
-            randomPuppy('programmerhumor')
-                .then(url => {
-                    message.channel.send(url);
-                })
-    }
-    if (message.content === '!basilisk') {
-            function genrnd(min, max) {
-                min = Math.ceil(min);
-                max = Math.floor(max);
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-            if (genrnd(1, 8) === 3) {
-                message.channel.send("❤️ https://discord.gg/zDc8yCH79k")
-            } else {
-                message.channel.send("❤️");
-            }
-    }
-    if (message.content === '!coin') {
-            var options = ['Heads', 'Tails'];
-            message.channel.send(`🪙 ${options[Math.floor(Math.random() * options.length)]}!`);
-    }
-    if (message.content.startsWith('!math')) {
-        try {
-            message.channel.send(eval(message.content.substring(5, message.content.length)));
-        }
-        catch {
-            message.channel.send("Eeek! Something went wrong!")
-        }
     }
 });
 //when someone joins, give roles and welcome them
