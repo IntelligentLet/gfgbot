@@ -114,6 +114,9 @@ client.on('message', message => {
 client.on("guildMemberAdd", (member) => {
     client.channels.cache.get('766100639826575433').send(`Welcome ${member.user}! You are member #${(client.guilds.cache.get(member.guild.id).memberCount)}. Please read ${client.channels.cache.get('766386424567693343')} to get started!`);
     member.roles.add(member.guild.roles.cache.find(role => role.name === 'Gamer'));
-}); 
+});
+client.on("guildMemberRemove", (member) => {
+    client.channels.cache.get('766100639826575433').send(`${member} just left the server what a noob`);
+});
 
 client.login(process.env.DISCORD);
