@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'purge',
-	description: 'delete messages',
+    description: 'delete messages',
+    aliases: ['delete'],
 	execute(message, args, client) {
         const Discord = require('discord.js');
         if (message.member.roles.cache.some(role => role.name === 'Mod')) {

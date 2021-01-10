@@ -1,6 +1,7 @@
 module.exports = {
     name: 'ban',
     description: 'the ban hammer has struck!',
+    aliases: ['blacklist'],
     execute(message, args, client) {
         const Discord = require('discord.js')
         var victim = message.member.guild.member(message.mentions.users.first());

@@ -1,6 +1,7 @@
 module.exports = {
     name: 'tts',
     description: 'twitch donations long lost brother',
+    aliases: ['texttospeech'],
     execute(message, args, client) {
         if (message.member.roles.cache.some(role => role.name === 'Mod')) {
             message.delete();

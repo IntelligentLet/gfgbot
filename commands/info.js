@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'info',
-	description: 'flex that ryzen 7',
+    description: 'flex that ryzen 7',
+    aliases: ['information', 'host'],
 	execute(message, args, client) {
         const os = require('os')
         const Discord = require('discord.js')

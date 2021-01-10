@@ -1,6 +1,7 @@
 module.exports = {
     name: 'help',
     description: 'never fear, vortex is here!!!!!',
+    aliases: ['commands'],
     execute(message, args, client) {
         const Discord = require('discord.js');
         const helpembed = new Discord.MessageEmbed()

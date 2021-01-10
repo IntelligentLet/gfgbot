@@ -109,11 +109,8 @@ client.on('message', message => {
 });
 //when someone joins, give roles and welcome them
 client.on("guildMemberAdd", (member) => {
-    const rules = client.channels.cache.get('766386424567693343');
-    var memberCount = (client.guilds.cache.get(member.guild.id).memberCount);
-    client.channels.cache.get('766100639826575433').send(`Welcome ${member.user}! You are member #${memberCount}. Please read ${rules} to get started!`).catch(console.error);
-    const role = member.guild.roles.cache.find(role => role.name === 'Gamer');
-    member.roles.add(role);
+    client.channels.cache.get('766100639826575433').send(`Welcome ${member.user}! You are member #${(client.guilds.cache.get(member.guild.id).memberCount)}. Please read ${client.channels.cache.get('766386424567693343')} to get started!`);
+    member.roles.add(member.guild.roles.cache.find(role => role.name === 'Gamer'));
 }); 
 
 client.login(process.env.DISCORD);
