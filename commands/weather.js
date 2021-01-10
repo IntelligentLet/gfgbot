@@ -1,7 +1,7 @@
 module.exports = {
     name: 'weather',
     description: 'sunny -324343 degrees',
-    cooldown: 10,
+    cooldown: 5,
     execute(message, args, client) {
         const axios = require('axios');
 

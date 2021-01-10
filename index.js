@@ -63,10 +63,13 @@ client.on('message', message => {
 
 	    if (now < expirationTime) {
 	    	const timeLeft = (expirationTime - now) / 1000;
-	    	return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+	    	return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing that command.`);
 	    }
     }
-    
+
+    timestamps.set(message.author.id, now);
+    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
     try {
     	client.commands.get(command).execute(message, args, client);
     } catch (error) {

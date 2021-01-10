@@ -1,7 +1,7 @@
 module.exports = {
     name: 'crypto',
     description: 'track the price of crypto currency',
-    cooldown: 5,
+    cooldown: 3,
     aliases: ['cryptocurrency'],
     execute(message, args, client) {
         const Discord = require('discord.js')
